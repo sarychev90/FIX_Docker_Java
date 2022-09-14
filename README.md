@@ -10,4 +10,4 @@ This is a simple dockerized project to implement a Java Spring Boot client and s
 
 	docker-compose up
 
-Note: for sending data you may use API of fix client controller.
+Note: for sending data you may use API of fix client controller. A Swagger-based OpenAPI interface is available in the project. After deploying the project, the user can get acquainted in detail with the structure of the REST services methods at the link: http://localhost:8081/swagger-ui.html

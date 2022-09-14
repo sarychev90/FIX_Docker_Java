@@ -7,17 +7,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import best.project.fix.service.IMessageService;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/fix")
+@RequestMapping("/api/fix")
 public class FixClientController implements IFixClientService {
 
 	@Autowired
 	IMessageService messageService;
 	
 	@Override
+	@ApiOperation(value = "Send test message with 'testReqID'")
 	@PostMapping("/test/{testReqID}")
 	public String simpleTestMessage(@PathVariable("testReqID") String testReqID) throws Exception {
 		String response = messageService.sendTestMessage(testReqID);
@@ -26,6 +28,7 @@ public class FixClientController implements IFixClientService {
 	}
 	
 	@Override
+	@ApiOperation(value = "Send test message with wrong data")
 	@PostMapping("/test/error")
 	public String simpleTestMessageError() throws Exception {
 		String response = messageService.sendTestMessageError();
@@ -34,6 +37,7 @@ public class FixClientController implements IFixClientService {
 	}
 	
 	@Override
+	@ApiOperation(value = "Send new order message with 'clOrdID'")
 	@PostMapping("/order/new/{clOrdID}")
 	public String simpleOrder(@PathVariable("clOrdID") String clOrdID) throws Exception {
 		String response = messageService.sendNewOrder(clOrdID);
@@ -42,6 +46,7 @@ public class FixClientController implements IFixClientService {
 	}
 	
 	@Override
+	@ApiOperation(value = "Send new order message with wrong data")
 	@PostMapping("/order/new/error")
 	public String simpleOrderError() throws Exception {
 		String response = messageService.sendNewOrderError();
