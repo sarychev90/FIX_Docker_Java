@@ -12,11 +12,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("/fix")
-public class FixClientController {
+public class FixClientController implements IFixClientService {
 
 	@Autowired
 	IMessageService messageService;
 	
+	@Override
 	@PostMapping("/test/{testReqID}")
 	public String simpleTestMessage(@PathVariable("testReqID") String testReqID) throws Exception {
 		String response = messageService.sendTestMessage(testReqID);
@@ -24,6 +25,7 @@ public class FixClientController {
 		return response;
 	}
 	
+	@Override
 	@PostMapping("/test/error")
 	public String simpleTestMessageError() throws Exception {
 		String response = messageService.sendTestMessageError();
@@ -31,6 +33,7 @@ public class FixClientController {
 		return response;
 	}
 	
+	@Override
 	@PostMapping("/order/new/{clOrdID}")
 	public String simpleOrder(@PathVariable("clOrdID") String clOrdID) throws Exception {
 		String response = messageService.sendNewOrder(clOrdID);
@@ -38,6 +41,7 @@ public class FixClientController {
 		return response;
 	}
 	
+	@Override
 	@PostMapping("/order/new/error")
 	public String simpleOrderError() throws Exception {
 		String response = messageService.sendNewOrderError();
