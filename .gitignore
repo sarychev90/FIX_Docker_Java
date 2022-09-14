@@ -1,0 +1,6 @@
+#FIX Java
+/**/target/
+/**/.classpath
+/**/.project
+/**/.settings
+/**/log*

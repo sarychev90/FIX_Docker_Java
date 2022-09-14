@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+  app:
+    image: 'sarychev90/fix:server'
+    build:
+      context: ../.
+      dockerfile: ./fixServer/Dockerfile
+    ports:
+      - 9876:9876
+      - 9877:9877
+      - 9878:9878
+      - 9879:9879
+      - 9880:9880
+      - 9881:9881
