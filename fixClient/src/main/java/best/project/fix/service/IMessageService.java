@@ -10,4 +10,6 @@ public interface IMessageService {
 
 	String sendNewOrderError();
 
+	String sendNewOrderErrorType();
+
 }

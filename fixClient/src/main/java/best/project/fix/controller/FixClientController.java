@@ -53,4 +53,13 @@ public class FixClientController implements IFixClientService {
 		log.info("simpleOrderError response = {}", response);
 		return response;
 	}
+	
+	@Override
+	@ApiOperation(value = "Send new order message with wrong order type")
+	@PostMapping("/order/new/wrongtype")
+	public String simpleOrderWrongType() throws Exception {
+		String response = messageService.sendNewOrderErrorType();
+		log.info("simpleOrderWrongType response = {}", response);
+		return response;
+	}
 }

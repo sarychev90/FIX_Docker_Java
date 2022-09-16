@@ -22,8 +22,8 @@ import quickfix.field.TestReqID;
 @Slf4j
 public class MessageService implements IMessageService {
 	
-	private static final String MESSAGE_SEND_FAIL = "Message send fail!";
-	private static final String MESSAGE_SEND_SUCCESS = "Message send successfully!";
+	public static final String MESSAGE_SEND_FAIL = "Message send fail!";
+	public static final String MESSAGE_SEND_SUCCESS = "Message send successfully!";
 	
 	@Autowired
 	QuickFixJTemplate quickFixJTemplate;
@@ -35,7 +35,7 @@ public class MessageService implements IMessageService {
 			Message message = new Message();
 			Header header = message.getHeader();
 			header.setField(new BeginString("FIX.4.1"));
-			header.setField(new SenderCompID("BANZAI"));
+			header.setField(new SenderCompID("CLIENTFIX"));
 			header.setField(new TargetCompID("EXEC"));
 			header.setField(new MsgType(MsgType.TEST_REQUEST));
 			message.setField(new TestReqID(testReqID)); //required=Y
@@ -54,7 +54,7 @@ public class MessageService implements IMessageService {
 			Message message = new Message();
 			Header header = message.getHeader();
 			header.setField(new BeginString("FIX.4.1"));
-			header.setField(new SenderCompID("BANZAI"));
+			header.setField(new SenderCompID("CLIENTFIX"));
 			header.setField(new TargetCompID("EXEC"));
 			header.setField(new MsgType(MsgType.TEST_REQUEST));
 			quickFixJTemplate.send(message);
@@ -72,7 +72,7 @@ public class MessageService implements IMessageService {
 			Message message = new Message();
 			Header header = message.getHeader();
 			header.setField(new BeginString("FIX.4.1"));
-			header.setField(new SenderCompID("BANZAI"));
+			header.setField(new SenderCompID("CLIENTFIX"));
 			header.setField(new TargetCompID("EXEC"));
 			header.setField(new MsgType(MsgType.ORDER_SINGLE)); //D
 			message.setField(new ClOrdID(clOrdID)); //required=Y
@@ -95,13 +95,36 @@ public class MessageService implements IMessageService {
 			Message message = new Message();
 			Header header = message.getHeader();
 			header.setField(new BeginString("FIX.4.1"));
-			header.setField(new SenderCompID("BANZAI"));
+			header.setField(new SenderCompID("CLIENTFIX"));
 			header.setField(new TargetCompID("EXEC"));
 			header.setField(new MsgType(MsgType.ORDER_SINGLE)); //D
 			message.setField(new HandlInst(HandlInst.AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION));
 			message.setField(new Symbol("LNUX"));
 			message.setField(new Side(Side.BUY));
 			message.setField(new OrdType(OrdType.FUNARI));
+			quickFixJTemplate.send(message);
+		} catch (Exception e) {
+			log.error("sendNewOrderError exception: {}", e.getMessage(), e);
+			response = MESSAGE_SEND_FAIL;
+		}
+		return response;
+	}
+	
+	@Override
+	public String sendNewOrderErrorType() {
+		String response = MESSAGE_SEND_SUCCESS;
+		try {
+			Message message = new Message();
+			Header header = message.getHeader();
+			header.setField(new BeginString("FIX.4.1"));
+			header.setField(new SenderCompID("CLIENTFIX"));
+			header.setField(new TargetCompID("EXEC"));
+			header.setField(new MsgType(MsgType.ORDER_SINGLE)); //D
+			message.setField(new ClOrdID("123")); //required=Y
+			message.setField(new HandlInst(HandlInst.AUTOMATED_EXECUTION_ORDER_PRIVATE_NO_BROKER_INTERVENTION));
+			message.setField(new Symbol("LNUX"));
+			message.setField(new Side(Side.BUY));
+			message.setField(new OrdType(OrdType.FUNARI)); // "I" but valid type "1,2,F"
 			quickFixJTemplate.send(message);
 		} catch (Exception e) {
 			log.error("sendNewOrderError exception: {}", e.getMessage(), e);

@@ -10,4 +10,6 @@ public interface IFixClientService {
 
 	String simpleOrderError() throws Exception;
 
+	String simpleOrderWrongType() throws Exception;
+
 }
